@@ -22,10 +22,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 't=_(s(a&r#)^&u55m7mbbw6(e2=cg4a$^0a7*n^k62w(uce2at'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if os.environ["PRODUCTIONENVIROMENT"] = '0':
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG = True
 
-ALLOWED_HOSTS = []
+    ALLOWED_HOSTS = ["*"]
+else:
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG = False
+
+    ALLOWED_HOSTS = ["colesbay.maxstuff.net"]
 
 
 # Application definition
