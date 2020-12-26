@@ -68,6 +68,9 @@ def viewcamp(request):
     campsite_id = request.GET.get("id",None)
     campsites_wn = json.loads(requests.get("https://raw.githubusercontent.com/maxfire2008/coles-bay-campsites/main/sitedata.json").content.decode())
     wind_color = getcolor(campsites_wn[campsite_id]["wind"])
+    desfield = ""
+    if "note" in campsites_wn[campsite_id]:
+        desfield="""<div style="display:inline-block;vertical-align:top;font-size:3vmin;">"""+campsites_wn[campsite_id]["note"].replace("\n","<br>")+"""</div>"""
     if campsite_id:
         return HttpResponse("""<!DOCTYPE hmtl>
 <head>
@@ -109,6 +112,6 @@ def viewcamp(request):
     <p class="heading">Campsite """+campsite_id+"""</p>
     <p class="wind">Wind Rating """+str(campsites_wn[campsite_id]["wind"])+"""/5</p>
     <iframe width="60%" height="70%" allowfullscreen style="border-style:none;" src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://raw.githubusercontent.com/maxfire2008/coles-bay-campsites/main/images/cb-"""+campsite_id+""".jpeg"></iframe>
-</body>""")
+"""+desfield+"""</body>""")
     else:
         return HttpResponse("Error")
