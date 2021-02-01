@@ -19,8 +19,8 @@ def getcolor(rating):
     return wind_color
 
 def index(request):
-    campsites_document = requests.get("https://raw.githubusercontent.com/maxfire2008/coles-bay-campsites/main/campsites.csv").content.decode().split("\n")
-    campsites_wn = json.loads(requests.get("https://raw.githubusercontent.com/maxfire2008/coles-bay-campsites/main/sitedata.json").content.decode())
+    campsites_document = requests.get("https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@master/campsites.csv").content.decode().split("\n")
+    campsites_wn = json.loads(requests.get("https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@master/sitedata.json").content.decode())
     campsites = ""
     for site_number in campsites_document:
         try:
@@ -66,12 +66,12 @@ def index(request):
 
 def viewcamp(request):
     campsite_id = request.GET.get("id",None)
-    campsites_wn = json.loads(requests.get("https://raw.githubusercontent.com/maxfire2008/coles-bay-campsites/main/sitedata.json").content.decode())
-    wind_color = getcolor(campsites_wn[campsite_id]["wind"])
-    desfield = ""
-    if "note" in campsites_wn[campsite_id]:
-        desfield="""<div style="display:inline-block;vertical-align:top;font-size:3vmin;">"""+campsites_wn[campsite_id]["note"].replace("\n","<br>")+"""</div>"""
-    if campsite_id:
+    campsites_wn = json.loads(requests.get("https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@master/sitedata.json").content.decode())
+    if campsite_id and campsite_id in campsites_wn:
+        wind_color = getcolor(campsites_wn[campsite_id]["wind"])
+        desfield = ""
+        if "note" in campsites_wn[campsite_id]:
+            desfield="""<div style="display:inline-block;vertical-align:top;font-size:3vmin;">"""+campsites_wn[campsite_id]["note"].replace("\n","<br>")+"""</div>"""
         return HttpResponse("""<!DOCTYPE hmtl>
 <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -94,14 +94,12 @@ def viewcamp(request):
             color: """+wind_color+""";
         }
         .wind {
-            font-family: sans-serif;
-            font-size: 2vmin;
-            font-weight: bold;
-            color: """+wind_color+""";
+            font-family: sans-serif; font-size: 5vmin; font-weight:
+            bold; color: """+wind_color+""";
         }
         li {
             font-family: sans-serif;
-            font-size: 5vmin;
+            font-size: 4vmin;
         }
         ul {
             column-count: 3;
@@ -111,7 +109,9 @@ def viewcamp(request):
 <body>
     <p class="heading">Campsite """+campsite_id+"""</p>
     <p class="wind">Wind Rating """+str(campsites_wn[campsite_id]["wind"])+"""/5</p>
-    <iframe width="60%" height="70%" allowfullscreen style="border-style:none;" src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://raw.githubusercontent.com/maxfire2008/coles-bay-campsites/main/images/cb-"""+campsite_id+""".jpeg"></iframe>
-"""+desfield+"""</body>""")
+    <iframe width="90%" height="70%" allowfullscreen style="border-style:none;" src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@master/images/cb-"""+campsite_id+""".jpeg"></iframe>
+<p>"""+desfield+"""</p><br>
+<img alt="Map not currently avalible." src="https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@master/maps/"""+str(campsite_id)+""".svg" width=100% height=100%>
+</body>""")
     else:
-        return HttpResponse("Error")
+        return HttpResponse("Campsite Non-existant")
