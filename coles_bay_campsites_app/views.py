@@ -1,22 +1,46 @@
 from django.http import HttpResponse
 import requests, json
 
-def getcolor(rating):
-    if rating == 0:
-        wind_color = "black"
-    elif rating == 1:
-        wind_color = "darkblue"
-    elif rating == 2:
-        wind_color = "green"
-    elif rating == 3:
-        wind_color = "orange"
-    elif rating == 4:
-        wind_color = "red"
-    elif rating == 5:
-        wind_color = "hotpink"
-    else:
-        wind_color = "black"
-    return wind_color
+from io import StringIO
+import csv
+import time
+
+def loadreviews():
+    global reviews
+    global latest_review_load
+    r=requests.get("https://docs.google.com/spreadsheet/ccc?key=1lAhfx55PorM3F83iJDEnZF_UzsxVsxwSbs1rPsQxk5k&output=csv")
+    f=StringIO(r.content.decode())
+    reader = csv.reader(f, delimiter=',')
+    rows = []
+    for row in reader:
+        rows.append(row)
+    reviews=rows
+    latest_review_load=time.time()
+def getreviews():
+    global reviews
+    global latest_review_load
+    if (latest_review_load+600)<time.time():
+        loadreviews()
+    return reviews
+
+##def getcolor(rating):
+##    if rating == 0:
+##        wind_color = "black"
+##    elif rating == 1:
+##        wind_color = "darkblue"
+##    elif rating == 2:
+##        wind_color = "green"
+##    elif rating == 3:
+##        wind_color = "orange"
+##    elif rating == 4:
+##        wind_color = "red"
+##    elif rating == 5:
+##        wind_color = "hotpink"
+##    else:
+##        wind_color = "black"
+##    return wind_color
+##def getrating(rating):
+##    
 
 def index(request):
     campsites_document = requests.get("https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@master/campsites.csv").content.decode().split("\n")
@@ -28,7 +52,8 @@ def index(request):
         except:
             campsite_test=None
         if campsite_test:
-            site_color = getcolor(campsites_wn[campsite_test]["wind"])
+##            site_color = getcolor(campsites_wn[campsite_test]["wind"])
+            site_color="black"
             campsites+="""<li><a href="/viewcamp?id="""+campsite_test+"""" style="color:"""+site_color+"""">"""+campsite_test+"""</a></li>"""
     return HttpResponse("""<!DOCTYPE hmtl>
 <head>
@@ -68,7 +93,8 @@ def viewcamp(request):
     campsite_id = request.GET.get("id",None)
     campsites_wn = json.loads(requests.get("https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@master/sitedata.json").content.decode())
     if campsite_id and campsite_id in campsites_wn:
-        wind_color = getcolor(campsites_wn[campsite_id]["wind"])
+##        wind_color = getcolor(campsites_wn[campsite_id]["wind"])
+        wind_color="black"
         desfield = ""
         if "note" in campsites_wn[campsite_id]:
             desfield="""<div style="display:inline-block;vertical-align:top;font-size:3vmin;">"""+campsites_wn[campsite_id]["note"].replace("\n","<br>")+"""</div>"""
@@ -91,11 +117,11 @@ def viewcamp(request):
             font-size: 15vmin;
             margin-bottom:0;
             font-weight: bold;
-            color: """+wind_color+""";
+            /*color: """+wind_color+""";*/
         }
-        .wind {
+        .ratingtext {
             font-family: sans-serif; font-size: 5vmin; font-weight:
-            bold; color: """+wind_color+""";
+            bold; /*color: """+wind_color+""";*/
         }
         li {
             font-family: sans-serif;
@@ -104,11 +130,35 @@ def viewcamp(request):
         ul {
             column-count: 3;
         }
+        @charset "UTF-8";
+:root {
+  --star-color: #999;
+  --star-background: #fc0;
+}
+
+.Stars {
+  --percent: calc(var(--rating) / 5 * 100%);
+  display: inline-block;
+  font-size: var(--star-size);
+  font-family: Times;
+  line-height: 1;
+}
+.Stars::before {
+  content: "★★★★★";
+  letter-spacing: 3px;
+  background: linear-gradient(90deg, var(--star-background) var(--percent), var(--star-color) var(--percent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
     </style>
 </head>
 <body>
     <p class="heading">Campsite """+campsite_id+"""</p>
-    <p class="wind">Wind Rating """+str(campsites_wn[campsite_id]["wind"])+"""/5</p>
+    <p class="ratingtext">Rating <span class="Stars" style="--rating: 2.3;--star-size: 6vmin;"></span><br>
+    <span style="font-size:3.5vmin">Wind <span class="Stars" style="--rating: 2.3;--star-size: 4vmin;"></span><br>
+    Utility Distance <span class="Stars" style="--rating: 2.3;--star-size: 4vmin;"></span><br>
+    Privacy <span class="Stars" style="--rating: 2.3;--star-size: 4vmin;"></span>
+    </span></p>
     <iframe width="90%" height="70%" allowfullscreen style="border-style:none;" src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@master/images/cb-"""+campsite_id+""".jpeg"></iframe>
 <p>"""+desfield+"""</p><br>
 <img alt="Map not currently avalible." src="https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@master/maps/"""+str(campsite_id)+""".svg" width=100% height=100%>
