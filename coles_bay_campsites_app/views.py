@@ -4,6 +4,7 @@ import requests, json
 from io import StringIO
 import csv
 import time
+latest_review_load = -10**50
 
 def loadreviews():
     global reviews
@@ -22,6 +23,38 @@ def getreviews():
     if (latest_review_load+600)<time.time():
         loadreviews()
     return reviews
+def getratings(campsite_number_to_check):
+    windratings = []
+    locationratings = []
+    privacyratings = []
+    for review in getreviews()[1:]:
+        if review[2] == str(campsite_number_to_check):
+            try:
+                windratings.append(int(review[3]))
+            except:
+                None
+            try:
+                locationratings.append(int(review[4]))
+            except:
+                None
+            try:
+                privacyratings.append(int(review[5]))
+            except:
+                None
+    try:
+        windrating = sum(windratings)/len(windratings)
+    except:
+        windrating = None
+    try:
+        locationrating = sum(locationratings)/len(locationratings)
+    except:
+        locationrating = None
+    try:
+        privacyrating = sum(privacyratings)/len(privacyratings)
+    except:
+        privacyrating = None
+    return windrating,locationrating,privacyrating
+##def getreviews
 
 ##def getcolor(rating):
 ##    if rating == 0:
@@ -96,6 +129,24 @@ def viewcamp(request):
 ##        wind_color = getcolor(campsites_wn[campsite_id]["wind"])
         wind_color="black"
         desfield = ""
+        ratings = getratings(campsite_id)
+        ratingstextlist = []
+        averagelist = []
+        if ratings[0]:
+            ratingstextlist.append("""Wind <span class="Stars" style="--rating: """+str(float(ratings[0]))+""";--star-size: 4vmin;"></span>""")
+            averagelist.append(ratings[0])
+        else:
+            ratingstextlist.append("""Wind <span class="Stars" style="--rating: """+str(float(campsites_wn[campsite_id]["wind"]))+""";--star-size: 4vmin;"></span>""")
+            averagelist.append(campsites_wn[campsite_id]["wind"])
+        if ratings[1]:
+            ratingstextlist.append("""Utility Distance <span class="Stars" style="--rating: """+str(float(ratings[1]))+""";--star-size: 4vmin;"></span>""")
+            averagelist.append(ratings[1])
+        if ratings[2]:
+            ratingstextlist.append("""Privacy <span class="Stars" style="--rating: """+str(float(ratings[2]))+""";--star-size: 4vmin;">""")
+            averagelist.append(ratings[2])
+        print(averagelist)
+        average=sum(averagelist)/len(averagelist)
+        ratingstext="<br>".join(ratingstextlist)
         if "note" in campsites_wn[campsite_id]:
             desfield="""<div style="display:inline-block;vertical-align:top;font-size:3vmin;">"""+campsites_wn[campsite_id]["note"].replace("\n","<br>")+"""</div>"""
         return HttpResponse("""<!DOCTYPE hmtl>
@@ -154,14 +205,13 @@ def viewcamp(request):
 </head>
 <body>
     <p class="heading">Campsite """+campsite_id+"""</p>
-    <p class="ratingtext">Rating <span class="Stars" style="--rating: 2.3;--star-size: 6vmin;"></span><br>
-    <span style="font-size:3.5vmin">Wind <span class="Stars" style="--rating: 2.3;--star-size: 4vmin;"></span><br>
-    Utility Distance <span class="Stars" style="--rating: 2.3;--star-size: 4vmin;"></span><br>
-    Privacy <span class="Stars" style="--rating: 2.3;--star-size: 4vmin;"></span>
+    <p class="ratingtext">Rating <span class="Stars" style="--rating: """+str(float(average))+""";--star-size: 6vmin;"></span><br>
+    <span style="font-size:3.5vmin">"""+ratingstext+"""</span>
     </span></p>
+    <p><a href="https://docs.google.com/forms/d/e/1FAIpQLScok1NIAGXhXBfzmRwv0q_4rlJdkAsSy2IOoeXZspRJ6Q6mMg/viewform?usp=pp_url&entry.1764404320="""+campsite_id+"""">Leave a rating or review</a></p>
     <iframe width="90%" height="70%" allowfullscreen style="border-style:none;" src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@master/images/cb-"""+campsite_id+""".jpeg"></iframe>
 <p>"""+desfield+"""</p><br>
 <img alt="Map not currently avalible." src="https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@master/maps/"""+str(campsite_id)+""".svg" width=100% height=100%>
 </body>""")
-    else:
+    else:#
         return HttpResponse("Campsite Non-existant")
