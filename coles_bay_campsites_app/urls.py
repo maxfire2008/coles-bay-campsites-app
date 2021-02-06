@@ -22,4 +22,6 @@ urlpatterns = [
 ##    path('admin/', admin.site.urls),
     path('',views.index),
     path('viewcamp/',views.viewcamp),
+    path('donate/',views.donate),
+    path('about/',views.about),
 ]
