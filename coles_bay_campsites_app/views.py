@@ -109,6 +109,9 @@ def index(request):
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coles Bay Campsites</title>
     <style>
+    * {
+    font-family: sans-serif;
+    }
         h1 {
             font-family: sans-serif;
             font-size: 15vmin;
@@ -186,6 +189,9 @@ def viewcamp(request):
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Campsite """+campsite_id+"""</title>
     <style>
+    * {
+    font-family: sans-serif;
+    }
         .heading {
             font-family: sans-serif;
             font-size: 15vmin;
@@ -284,6 +290,7 @@ def donate(request):
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+    * { font-family: sans-serif; }
         h1 {
             font-family: sans-serif;
             font-size: 15vmin;
@@ -324,6 +331,7 @@ def about(request):
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+    * { font-family: sans-serif; }
         h1 {
             font-family: sans-serif;
             font-size: 7vmin;
