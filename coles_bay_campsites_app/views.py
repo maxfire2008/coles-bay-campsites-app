@@ -113,6 +113,9 @@ def index(request):
         ul {
             column-count: 3;
         }
+        p {
+    font-size: 5vmin;
+}
     </style>
 </head>
 <body>
@@ -121,9 +124,11 @@ def index(request):
         """+campsites+"""
     </ul>
     <br><br>
+    <p>
     <a href="/about">About</a><br>
     <a href="/donate">Donate</a><br>
     <a href="https://www.maxstuff.net">My Other Work</a>
+    </p>
 </body>""")
 
 def viewcamp(request):
@@ -205,6 +210,9 @@ def viewcamp(request):
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+p {
+    font-size: 5vmin;
+}
     </style>
 </head>
 <body>
@@ -217,9 +225,11 @@ def viewcamp(request):
 <p>"""+desfield+"""</p><br>
 <img alt="Map not currently avalible." src="https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@master/maps/"""+str(campsite_id)+""".svg" width=100% height=100%>
 <br><br>
+<p>
     <a href="/about">About</a><br>
     <a href="/donate">Donate</a><br>
     <a href="https://www.maxstuff.net">My Other Work</a>
+</p>
 </body>""")
     else:#
         return HttpResponse("Campsite Non-existant")
