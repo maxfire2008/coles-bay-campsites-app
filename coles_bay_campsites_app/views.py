@@ -120,6 +120,10 @@ def index(request):
     <ul>
         """+campsites+"""
     </ul>
+    <br><br>
+    <a href="http://colesbay.maxstuff.net/aboute">About</a><br>
+    <a href="http://colesbay.maxstuff.net/donate">Donate</a><br>
+    <a href="https://www.maxstuff.net">My Other Work</a>
 </body>""")
 
 def viewcamp(request):
