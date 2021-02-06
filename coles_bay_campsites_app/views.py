@@ -130,7 +130,7 @@ def index(request):
     <ul>
         """+campsites+"""
     </ul>
-    <br><br>
+    <br>
     <p>
     <a href="/about">About</a><br>
     <a href="/donate">Donate</a><br>
@@ -165,7 +165,7 @@ def viewcamp(request):
         ratingstext="<br>".join(ratingstextlist)
         reviewscollectedandformatted = []
         for review in getreviewstoshow(campsite_id):
-            reviewscollectedandformatted.append(f'<div class="review">{review[0]}<br><div class="reviewauthor">- {review[1]}</div></div>')
+            reviewscollectedandformatted.append(f'<div class="review" style="font-family: sans-serif;margin-bottom: 1vh;width: 90%;margin-left: 5%;margin-right: 5%;text-align: center;">{review[0]}<br><div class="reviewauthor" style="text-align: right;color: darkslategrey;">- {review[1]}</div></div>')
         if len(reviewscollectedandformatted) > 0:
             reviewsfetched = ''.join(reviewscollectedandformatted)
         else:
@@ -256,10 +256,10 @@ p {
 <p>"""+desfield+"""</p><br>
 <img alt="Map not currently avalible." src="https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@master/maps/"""+str(campsite_id)+""".svg" width=100% height=100%>
 <h2>Reviews</h2>
-<div class="reviewsdiv">
+<div class="reviewsdiv" style="text-align: center;">
 """+reviewsfetched+"""
 </div>
-<br><br>
+<br>
 <p>
     <a href="/about">About</a><br>
     <a href="/donate">Donate</a><br>
