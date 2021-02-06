@@ -121,8 +121,8 @@ def index(request):
         """+campsites+"""
     </ul>
     <br><br>
-    <a href="http://colesbay.maxstuff.net/aboute">About</a><br>
-    <a href="http://colesbay.maxstuff.net/donate">Donate</a><br>
+    <a href="/about">About</a><br>
+    <a href="/donate">Donate</a><br>
     <a href="https://www.maxstuff.net">My Other Work</a>
 </body>""")
 
@@ -216,6 +216,87 @@ def viewcamp(request):
     <iframe width="90%" height="70%" allowfullscreen style="border-style:none;" src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@master/images/cb-"""+campsite_id+""".jpeg"></iframe>
 <p>"""+desfield+"""</p><br>
 <img alt="Map not currently avalible." src="https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@master/maps/"""+str(campsite_id)+""".svg" width=100% height=100%>
+<br><br>
+    <a href="/about">About</a><br>
+    <a href="/donate">Donate</a><br>
+    <a href="https://www.maxstuff.net">My Other Work</a>
 </body>""")
     else:#
         return HttpResponse("Campsite Non-existant")
+
+def donate(request):
+    images = open("images.txt","rb").read().decode().split("\n")
+    return HttpResponse("""<!DOCTYPE hmtl>
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-160826511-4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-160826511-4');
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        h1 {
+            font-family: sans-serif;
+            font-size: 15vmin;
+        }
+        h2 {
+            font-family: sans-serif;
+            font-size: 7vmin;
+        }
+        p {
+            font-family: sans-serif;
+            font-size: 5vmin;
+        }
+        img {
+            max-width: 50vw;
+            max-height: 50vh;
+        }
+    </style>
+    <title>Donate</title>
+</head>
+<body>
+    <h1>Donate money to me</h1>
+    <h2>Donations of $10 to $100 (preferred)</h2>
+    <p><a href="https://spriggy.me/maxb39"><img src=\""""+images[0]+"""\"></a></p>
+    <h2>Donations of any amount</h2>
+    <p>Coming soon. Watch this space. (PayPal)</p>
+</body>""")
+def about(request):
+    return HttpResponse("""<!DOCTYPE hmtl>
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-160826511-4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-160826511-4');
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        h1 {
+            font-family: sans-serif;
+            font-size: 7vmin;
+        }
+        p {
+            font-family: sans-serif;
+            font-size: 5vmin;
+        }
+        img {
+            max-width: 50vw;
+            max-height: 50vh;
+        }
+    </style>
+    <title>About</title>
+</head>
+<body>
+    <h1>About colesbay.maxstuff.net</h1>
+    <p>Hi, I am Max, and I am 12 long has my family wondered "I wonder if this will be a good campsite" especially in times other then summer when the ballot is in use.</p>
+<p>I decided to take 360-degree photos of every campsite and I also made measurements down to the last centimetre. I took a wind-rating. I then put it all on this website where you can see all that info you can even leave reviews and star ratings on each campsite.</p>
+<p>I hope you enjoy this service, and you can always contact me at <a href="me@maxstuff.net">me@maxstuff.net</a></p>
+</body>""")
