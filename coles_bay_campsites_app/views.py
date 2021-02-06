@@ -54,8 +54,15 @@ def getratings(campsite_number_to_check):
     except:
         privacyrating = None
     return windrating,locationrating,privacyrating
-##def getreviews
-
+def getreviewstoshow(campsite_number_to_check):
+    reviews_allowed = []
+    for review in getreviews()[1:]:
+        if review[9] == "TRUE" and review[2] == campsite_number_to_check:
+            if review[7]:
+                reviews_allowed.append([review[6],review[7]])
+            else:
+                reviews_allowed.append([review[6],"A colesbay.maxstuff.net user"])
+    return reviews_allowed
 ##def getcolor(rating):
 ##    if rating == 0:
 ##        wind_color = "black"
@@ -147,6 +154,13 @@ def viewcamp(request):
         print(averagelist)
         average=sum(averagelist)/len(averagelist)
         ratingstext="<br>".join(ratingstextlist)
+        reviewscollectedandformatted = []
+        for review in getreviewstoshow(campsite_id):
+            reviewscollectedandformatted.append(f'<div class="review">{review[0]}<br><div class="reviewauthor">- {review[1]}</div></div>')
+        if len(reviewscollectedandformatted) > 0:
+            reviewsfetched = ''.join(reviewscollectedandformatted)
+        else:
+            reviewsfetched = """<p>No reviews yet. Be the first to <a href="https://docs.google.com/forms/d/e/1FAIpQLScok1NIAGXhXBfzmRwv0q_4rlJdkAsSy2IOoeXZspRJ6Q6mMg/viewform?usp=pp_url&entry.1764404320="""+campsite_id+"""">leave one</a>!</p>"""
         if "note" in campsites_wn[campsite_id]:
             desfield="""<div style="display:inline-block;vertical-align:top;font-size:3vmin;">"""+campsites_wn[campsite_id]["note"].replace("\n","<br>")+"""</div>"""
         return HttpResponse("""<!DOCTYPE hmtl>
@@ -179,6 +193,7 @@ def viewcamp(request):
             font-size: 4vmin;
         }
         ul {
+            font-family: sans-serif;
             column-count: 3;
         }
         @charset "UTF-8";
@@ -201,6 +216,23 @@ def viewcamp(request):
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+.reviewsdiv {
+    text-align: center;
+}
+.review {
+    font-family: sans-serif;
+    margin-bottom: 1vh;
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    text-align: center;
+}
+.reviewauthor {
+    width: 100%;
+    font-family: sans-serif;
+    text-align: right;
+    color: darkslategrey;
+}
     </style>
 </head>
 <body>
@@ -212,6 +244,10 @@ def viewcamp(request):
     <iframe width="90%" height="70%" allowfullscreen style="border-style:none;" src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@master/images/cb-"""+campsite_id+""".jpeg"></iframe>
 <p>"""+desfield+"""</p><br>
 <img alt="Map not currently avalible." src="https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@master/maps/"""+str(campsite_id)+""".svg" width=100% height=100%>
+<h2>Reviews</h2>
+<div class="reviewsdiv">
+"""+reviewsfetched+"""
+</div>
 </body>""")
     else:#
         return HttpResponse("Campsite Non-existant")
