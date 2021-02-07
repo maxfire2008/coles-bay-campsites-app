@@ -83,8 +83,8 @@ def getreviewstoshow(campsite_number_to_check):
 ##    
 
 def index(request):
-    campsites_document = requests.get("https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@master/campsites.csv").content.decode().split("\n")
-    campsites_wn = json.loads(requests.get("https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@master/sitedata.json").content.decode())
+    campsites_document = requests.get("https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@main/campsites.csv").content.decode().split("\n")
+    campsites_wn = json.loads(requests.get("https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@main/sitedata.json").content.decode())
     campsites = ""
     for site_number in campsites_document:
         try:
@@ -144,7 +144,7 @@ def index(request):
 
 def viewcamp(request):
     campsite_id = request.GET.get("id",None)
-    campsites_wn = json.loads(requests.get("https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@master/sitedata.json").content.decode())
+    campsites_wn = json.loads(requests.get("https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@main/sitedata.json").content.decode())
     if campsite_id and campsite_id in campsites_wn:
 ##        wind_color = getcolor(campsites_wn[campsite_id]["wind"])
         wind_color="black"
@@ -174,8 +174,9 @@ def viewcamp(request):
             reviewsfetched = ''.join(reviewscollectedandformatted)
         else:
             reviewsfetched = """<p>No reviews yet. Be the first to <a href="https://docs.google.com/forms/d/e/1FAIpQLScok1NIAGXhXBfzmRwv0q_4rlJdkAsSy2IOoeXZspRJ6Q6mMg/viewform?usp=pp_url&entry.1764404320="""+campsite_id+"""">leave one</a>!</p>"""
+        print(campsites_wn)
         if "note" in campsites_wn[campsite_id]:
-            desfield="""<div style="display:inline-block;vertical-align:top;font-size:3vmin;">"""+campsites_wn[campsite_id]["note"].replace("\n","<br>")+"""</div>"""
+            desfield="""<div style="display:inline-block;vertical-align:top;font-size:3vmin;margin-top:5vmin;margin-bottom:5vmin;">"""+campsites_wn[campsite_id]["note"].replace("\n","<br>")+"""</div>"""
         return HttpResponse("""<!DOCTYPE hmtl>
 <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -259,9 +260,9 @@ p {
     <span style="font-size:3.5vmin">"""+ratingstext+"""</span>
     </span></p>
     <p><a href="https://docs.google.com/forms/d/e/1FAIpQLScok1NIAGXhXBfzmRwv0q_4rlJdkAsSy2IOoeXZspRJ6Q6mMg/viewform?usp=pp_url&entry.1764404320="""+campsite_id+"""">Leave a rating or review</a></p>
-    <iframe width="90%" height="70%" allowfullscreen style="border-style:none;" src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@master/images/cb-"""+campsite_id+""".jpeg"></iframe>
-<p>"""+desfield+"""</p><br>
-<img alt="Map not currently avalible." src="https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@master/maps/"""+str(campsite_id)+""".svg" width=100% height=100%>
+    <iframe width="90%" height="70%" allowfullscreen style="border-style:none;" src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@main/images/cb-"""+campsite_id+""".jpeg"></iframe>
+"""+desfield+"""
+<img alt="Map not currently avalible." src="https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@main/maps/"""+str(campsite_id)+""".svg" width=100% height=100%>
 <h2>Reviews</h2>
 <div class="reviewsdiv" style="text-align: center;">
 """+reviewsfetched+"""
