@@ -176,7 +176,7 @@ def viewcamp(request):
             reviewsfetched = """<p>No reviews yet. Be the first to <a href="https://docs.google.com/forms/d/e/1FAIpQLScok1NIAGXhXBfzmRwv0q_4rlJdkAsSy2IOoeXZspRJ6Q6mMg/viewform?usp=pp_url&entry.1764404320="""+campsite_id+"""">leave one</a>!</p>"""
         print(campsites_wn)
         if "note" in campsites_wn[campsite_id]:
-            desfield="""<div style="display:inline-block;vertical-align:top;font-size:3vmin;margin-top:5vmin;margin-bottom:5vmin;">"""+campsites_wn[campsite_id]["note"].replace("\n","<br>")+"""</div>"""
+            desfield="""<div style="display:inline-block;vertical-align:top;font-size:5vmin;margin-top:5vmin;margin-bottom:5vmin;">"""+campsites_wn[campsite_id]["note"].replace("\n","<br>")+"""</div>"""
         return HttpResponse("""<!DOCTYPE hmtl>
 <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
