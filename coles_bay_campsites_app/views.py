@@ -323,8 +323,8 @@ def donate(request):
     <p>Money collected will go towards upgrading my computer to advance my programming skills, etc.</p>
     <p>$<input type="number" value="1" id="amountInput" min=0>.<input type="number" value="0" min=-1 max=100 id="amountInputCents"></p>
     <p class="fineprint">Some amounts only avalible with certain methods. Methods listed in my order of preference.</p>
-    <h2 id="spriggyMethod">Donate with <a href="https://spriggy.me/maxb39"><img src=\""""+images[0]+"""\"></a></h2>
-    <h2 id="paypalMethod">Donate with <a href="https://paypal.me/maxstuffnet"><img src=\""""+images[1]+"""\"></a></h2>
+    <h2 id="spriggyMethod" style="display:none;">Donate with <a href="https://spriggy.me/maxb39"><img src=\""""+images[0]+"""\"></a></h2>
+    <h2 id="paypalMethod" style="display:none;">Donate with <a href="https://paypal.me/maxstuffnet"><img src=\""""+images[1]+"""\"></a></h2>
     <script>
         function updateMethod () {
             if (amountInputCents.value<0) {
