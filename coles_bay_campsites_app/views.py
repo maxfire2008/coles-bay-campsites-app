@@ -130,6 +130,7 @@ def index(request):
 </head>
 <body>
     <h1>Coles Bay Campsites</h1>
+    <p>Detailed information about the Richardsons Beach Campsites at Freycinet National Park</p>
     <ul>
         """+campsites+"""
     </ul>
