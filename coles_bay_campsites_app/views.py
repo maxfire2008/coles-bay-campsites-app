@@ -338,7 +338,7 @@ def donate(request):
                 amountInput.value=Number(amountInput.value)+1;
                 amountInputCents.value=0;
             }
-            if (amountInput.value>=10 && amountInput.value<=100 && amountInputCents.value==0) {
+            if (amountInput.value>=10 && amountInput.value<=100) {
                 spriggyMethod.style.display = "";
             } else {
                 spriggyMethod.style.display = "none";
