@@ -304,18 +304,53 @@ def donate(request):
             font-size: 5vmin;
         }
         img {
-            max-width: 50vw;
-            max-height: 50vh;
+            max-width: 25vw;
+            max-height: 25vh;
+        }
+        input {
+            font-size: 4vmin;
+            text-align: right;
+            width: 10vmax;
+        }
+        .fineprint {
+            font-size: 3vmin;
         }
     </style>
     <title>Donate</title>
 </head>
 <body>
     <h1>Donate money to me</h1>
-    <h2>Donations of $10 to $100 (preferred)</h2>
-    <p><a href="https://spriggy.me/maxb39"><img src=\""""+images[0]+"""\"></a></p>
-    <h2>Donations of any amount</h2>
-    <p>Coming soon. Watch this space. (PayPal)</p>
+    <p>Money collected will go towards upgrading my computer to advance my programming skills, etc.</p>
+    <p>$<input type="number" value="1" id="amountInput" min=0>.<input type="number" value="0" min=-1 max=100 id="amountInputCents"></p>
+    <p class="fineprint">Some amounts only avalible with certain methods. Methods listed in order of preference.</p>
+    <h2 id="spriggyMethod">Donate with <a href="https://spriggy.me/maxb39"><img src=\""""+images[0]+"""\"></a></h2>
+    <h2 id="paypalMethod">Donate with <a href="https://paypal.me/maxstuffnet"><img src=\""""+images[1]+"""\"></a></h2>
+    <script>
+        function updateMethod () {
+            if (amountInputCents.value<0) {
+                if (amountInput.value>0) {
+                    amountInput.value=Number(amountInput.value)-1;
+                    amountInputCents.value=99;
+                } else {
+                    amountInputCents.value=0;
+                }
+            } else if (amountInputCents.value>99) {
+                amountInput.value=Number(amountInput.value)+1;
+                amountInputCents.value=0;
+            }
+            if (amountInput.value>=10 && amountInput.value<=100 && amountInputCents.value==0) {
+                spriggyMethod.style.display = "";
+            } else {
+                spriggyMethod.style.display = "none";
+            }
+            paypalMethod.style.display = "";
+        }
+        amountInput.onchange = updateMethod;
+        amountInput.oninput = updateMethod;
+        amountInputCents.onchange = updateMethod;
+        amountInputCents.oninput = updateMethod;
+        updateMethod();
+    </script>
 </body>""")
 def about(request):
     return HttpResponse("""<!DOCTYPE hmtl>
