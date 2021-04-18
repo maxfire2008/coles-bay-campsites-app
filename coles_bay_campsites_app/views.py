@@ -262,7 +262,7 @@ p {
     <p><a href="https://docs.google.com/forms/d/e/1FAIpQLScok1NIAGXhXBfzmRwv0q_4rlJdkAsSy2IOoeXZspRJ6Q6mMg/viewform?usp=pp_url&entry.1764404320="""+campsite_id+"""">Leave a rating or review</a></p>
     <iframe width="90%" height="70%" allowfullscreen style="border-style:none;" src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@main/images/cb-"""+campsite_id+""".jpeg"></iframe>
 """+desfield+"""
-<img alt="Map not currently avalible." src="https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@main/maps/"""+str(campsite_id)+""".svg" width=100% height=100%>
+<img alt="Map not currently available." src="https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@main/maps/"""+str(campsite_id)+""".svg" width=100% height=100%>
 <h2>Reviews</h2>
 <div class="reviewsdiv" style="text-align: center;">
 """+reviewsfetched+"""
@@ -293,9 +293,13 @@ def donate(request):
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
     * { font-family: sans-serif; }
+        a {
+            text-decoration: none;
+            color: black;
+        }
         h1 {
             font-family: sans-serif;
-            font-size: 15vmin;
+            font-size: 10vmin;
         }
         h2 {
             font-family: sans-serif;
@@ -317,6 +321,9 @@ def donate(request):
         .fineprint {
             font-size: 3vmin;
         }
+        .somewhatfine {
+            font-size: 5vmin;
+        }
     </style>
     <title>Donate</title>
 </head>
@@ -324,9 +331,9 @@ def donate(request):
     <h1>Donate money to me</h1>
     <p>Money collected will go towards upgrading my computer to advance my programming skills, etc.</p>
     <p>$<input type="number" value="1" id="amountInput" min=0>.<input type="number" value="0" min=-1 max=100 id="amountInputCents"></p>
-    <p class="fineprint">Some amounts only avalible with certain methods. Methods listed in my order of preference.</p>
-    <h2 id="spriggyMethod" style="display:none;">Donate with <a href="https://spriggy.me/maxb39"><img src=\""""+images[0]+"""\"></a></h2>
-    <h2 id="paypalMethod" style="display:none;">Donate with <a href="https://paypal.me/maxstuffnet"><img src=\""""+images[1]+"""\"></a></h2>
+    <p class="fineprint">Some amounts only available with certain methods. Methods listed in my order of preference.</p>
+    <a href="https://spriggy.me/maxb39"><h2 id="spriggyMethod" style="display:none;">Donate with <img src=\""""+images[0]+"""\" alt="PayPal"><br><span class="somewhatfine">Credit/Debit Only</span></h2></a>
+    <a href="https://paypal.me/maxstuffnet"><h2 id="paypalMethod" style="display:none;">Donate with <img src=\""""+images[1]+"""\" alt="Spriggy"><br><span class="somewhatfine">PayPal Only</span></h2></a>
     <script>
         function updateMethod () {
             if (amountInputCents.value<0) {
@@ -352,6 +359,8 @@ def donate(request):
         amountInputCents.onchange = updateMethod;
         amountInputCents.oninput = updateMethod;
         updateMethod();
+        updateInteval = setInterval(updateMethod,100);
+        setTimeout(function() {clearInterval(updateInteval)}, 10000);
     </script>
 </body>""")
 def about(request):
