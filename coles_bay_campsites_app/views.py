@@ -57,7 +57,7 @@ def getratings(campsite_number_to_check):
 def getreviewstoshow(campsite_number_to_check):
     reviews_allowed = []
     for review in getreviews()[1:]:
-        if review[9] == "TRUE" and review[2] == campsite_number_to_check:
+        if review[10] == "TRUE" and review[2] == campsite_number_to_check:
             if review[7]:
                 reviews_allowed.append([review[6],review[7]])
             else:
@@ -112,20 +112,40 @@ def index(request):
     * {
     font-family: sans-serif;
     }
-        h1 {
-            font-family: sans-serif;
-            font-size: 15vmin;
+        @media screen and (orientation:portrait) {
+            h1 {
+                font-family: sans-serif;
+                font-size: 10vmin;
+            }
+            li {
+                font-family: sans-serif;
+                font-size: 7vmin;
+                margin: 5vmin;
+            }
+            ul {
+                column-count: 1;
+            }
+            p {
+                font-size: 7vmin;
+            }
         }
-        li {
-            font-family: sans-serif;
-            font-size: 5vmin;
+        @media screen and (orientation:landscape) {
+            h1 {
+                font-family: sans-serif;
+                font-size: 10vmin;
+            }
+            li {
+                font-family: sans-serif;
+                font-size: 5vmin;
+                padding: 1vmin;
+            }
+            ul {
+                column-count: 7;
+            }
+            p {
+                font-size: 5vmin;
+            }
         }
-        ul {
-            column-count: 3;
-        }
-        p {
-    font-size: 5vmin;
-}
     </style>
 </head>
 <body>
@@ -162,10 +182,9 @@ def viewcamp(request):
             ratingstextlist.append("""Utility Distance <span class="Stars" style="--rating: """+str(float(ratings[1]))+""";--star-size: 4vmin;"></span>""")
             averagelist.append(ratings[1])
         if ratings[2]:
-            ratingstextlist.append("""Privacy <span class="Stars" style="--rating: """+str(float(ratings[2]))+""";--star-size: 4vmin;">""")
+            ratingstextlist.append("""Privacy <span class="Stars" style="--rating: """+str(float(ratings[2]))+""";--star-size: 4vmin;"></span>""")
             averagelist.append(ratings[2])
         print(averagelist)
-        fonts = open("viewsitefonts.txt","rb").read().decode()
         average=sum(averagelist)/len(averagelist)
         ratingstext="<br>".join(ratingstextlist)
         reviewscollectedandformatted = []
@@ -174,7 +193,7 @@ def viewcamp(request):
         if len(reviewscollectedandformatted) > 0:
             reviewsfetched = ''.join(reviewscollectedandformatted)
         else:
-            reviewsfetched = """<p>No reviews yet. Be the first to <a href="https://docs.google.com/forms/d/e/1FAIpQLScok1NIAGXhXBfzmRwv0q_4rlJdkAsSy2IOoeXZspRJ6Q6mMg/viewform?usp=pp_url&entry.1764404320="""+campsite_id+"""">leave one</a>!</p>"""
+            reviewsfetched = """<div class="review" style="font-family: sans-serif;margin-bottom: 1vh;width: 90%;margin-left: 5%;margin-right: 5%;text-align: center;">No reviews yet. Be the first to <a href="https://docs.google.com/forms/d/e/1FAIpQLScok1NIAGXhXBfzmRwv0q_4rlJdkAsSy2IOoeXZspRJ6Q6mMg/viewform?usp=pp_url&entry.1764404320="""+campsite_id+"""">leave one</a>!</div>"""
         print(campsites_wn)
         if "note" in campsites_wn[campsite_id]:
             desfield="""<div style="display:inline-block;vertical-align:top;font-size:5vmin;margin-top:5vmin;margin-bottom:5vmin;">"""+campsites_wn[campsite_id]["note"].replace("\n","<br>")+"""</div>"""
@@ -195,26 +214,7 @@ def viewcamp(request):
     * {
     font-family: sans-serif;
     }
-        .heading {
-            font-family: sans-serif;
-            font-size: 15vmin;
-            margin-bottom:0;
-            font-weight: bold;
-            /*color: """+wind_color+""";*/
-        }
-        .ratingtext {
-            font-family: sans-serif; font-size: 5vmin; font-weight:
-            bold; /*color: """+wind_color+""";*/
-        }
-        li {
-            font-family: sans-serif;
-            font-size: 4vmin;
-        }
-        ul {
-            font-family: sans-serif;
-            column-count: 3;
-        }
-        @charset "UTF-8";
+            @charset "UTF-8";
 :root {
   --star-color: #999;
   --star-background: #fc0;
@@ -234,31 +234,96 @@ def viewcamp(request):
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-p {
-    font-size: 5vmin;
-.reviewsdiv {
-    text-align: center;
-}
-.review {
-    font-family: sans-serif;
-    margin-bottom: 1vh;
-    width: 90%;
-    margin-left: 5%;
-    margin-right: 5%;
-    text-align: center;
-}
-.reviewauthor {
-    width: 100%;
-    font-family: sans-serif;
-    text-align: right;
-    color: darkslategrey;
-}
+         @media screen and (orientation:portrait) {
+            .heading {
+                font-family: sans-serif;
+                font-size: 15vmin;
+                margin-bottom:0;
+                font-weight: bold;
+                /*color: """+wind_color+""";*/
+            }
+            .ratingtext {
+                font-family: sans-serif; font-size: 5vmin; font-weight:
+                bold; /*color: """+wind_color+""";*/
+            }
+            li {
+                font-family: sans-serif;
+                font-size: 4vmin;
+            }
+            ul {
+                font-family: sans-serif;
+                column-count: 3;
+            }
+            p {
+                font-size: 5vmin;
+            .reviewsdiv {
+                text-align: center;
+            }
+            .review {
+                font-family: sans-serif;
+                margin-bottom: 1vh;
+                width: 90%;
+                margin-left: 5%;
+                margin-right: 5%;
+                text-align: center;
+            }
+            .reviewauthor {
+                width: 100%;
+                font-family: sans-serif;
+                text-align: right;
+                color: darkslategrey;
+            }
+        }}
+        @media screen and (orientation:landscape) {
+            .heading {
+                font-family: sans-serif;
+                font-size: 10vmin;
+                margin-bottom:0;
+                font-weight: bold;
+                /*color: """+wind_color+""";*/
+            }
+            .ratingtext {
+                font-family: sans-serif; font-size: 5vmin; font-weight:
+                bold; /*color: """+wind_color+""";*/
+            }
+            li {
+                font-family: sans-serif;
+                font-size: 4vmin;
+            }
+            ul {
+                font-family: sans-serif;
+                column-count: 3;
+            }
+            p {
+                font-size: 5vmin;
+            .reviewsdiv {
+                text-align: center;
+            }
+            .review {
+                font-family: sans-serif;
+                margin-bottom: 1vh;
+                width: 90%;
+                margin-left: 5%;
+                margin-right: 5%;
+                text-align: center;
+            }
+            .reviewauthor {
+                width: 100%;
+                font-family: sans-serif;
+                text-align: right;
+                color: darkslategrey;
+            }
+            .subrating {
+                
+                color:pink;
+            }
+        }}
     </style>
 </head>
 <body>
     <p class="heading">Campsite """+campsite_id+"""</p>
     <p class="ratingtext">Rating <span class="Stars" style="--rating: """+str(float(average))+""";--star-size: 6vmin;"></span><br>
-    <span style="font-size:3.5vmin">"""+ratingstext+"""</span>
+    <span style="font-size:3.5vmin;">"""+ratingstext+"""</span>
     </span></p>
     <p><a href="https://docs.google.com/forms/d/e/1FAIpQLScok1NIAGXhXBfzmRwv0q_4rlJdkAsSy2IOoeXZspRJ6Q6mMg/viewform?usp=pp_url&entry.1764404320="""+campsite_id+"""">Leave a rating or review</a></p>
     <iframe width="90%" height="70%" allowfullscreen style="border-style:none;" src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://cdn.jsdelivr.net/gh/maxfire2008/coles-bay-campsites@main/images/cb-"""+campsite_id+""".jpeg"></iframe>
