@@ -130,7 +130,7 @@ def index(request):
 </head>
 <body>
     <h1>Coles Bay Campsites</h1>
-    <p>Detailed information about the Richardsons Beach Campsites at Freycinet National Park</p>
+    <p>Detailed information, maps, and panormas for  the Richardsons Beach Campsites at Freycinet National Park</p>
     <ul>
         """+campsites+"""
     </ul>
@@ -165,6 +165,7 @@ def viewcamp(request):
             ratingstextlist.append("""Privacy <span class="Stars" style="--rating: """+str(float(ratings[2]))+""";--star-size: 4vmin;">""")
             averagelist.append(ratings[2])
         print(averagelist)
+        fonts = open("viewsitefonts.txt","rb").read().decode()
         average=sum(averagelist)/len(averagelist)
         ratingstext="<br>".join(ratingstextlist)
         reviewscollectedandformatted = []
