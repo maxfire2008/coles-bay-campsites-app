@@ -463,5 +463,5 @@ def about(request):
     <h1>About colesbay.maxstuff.net</h1>
     <p>Hi, I am Max, and I am 12 long has my family wondered "I wonder if this will be a good campsite" especially in times other then summer when the ballot is in use.</p>
 <p>I decided to take 360-degree photos of every campsite and I also made measurements down to the last centimetre. I took a wind-rating. I then put it all on this website where you can see all that info you can even leave reviews and star ratings on each campsite.</p>
-<p>I hope you enjoy this service, and you can always contact me at <a href="me@maxstuff.net">me@maxstuff.net</a></p>
+<p>I hope you enjoy this service, and you can always contact me at Email - <span>me<span>(at</span>)maxstuff</span>(<span>dot)net</span> <sup><span style="color:blue" title="This is used to prevent automated bots from getting my email.">[?]</span></sup><br></p>
 </body>""")
