@@ -398,8 +398,9 @@ def donate(request):
     <p>Money collected will go towards upgrading my computer to advance my programming skills, etc.</p>
     <p>$<input type="number" value="1" id="amountInput" min=0>.<input type="number" value="0" min=-1 max=100 id="amountInputCents"> AUD</p>
     <p class="fineprint">Some amounts only available with certain methods. Methods listed in my order of preference.</p>
-    <a href="https://spriggy.me/maxb39" id="spriggyMethod"><h2>Donate with <img src=\""""+images[0]+"""\" alt="PayPal"><br><span class="somewhatfine">Australian Debit Cards Only</span></h2></a>
-    <a href="https://paypal.me/maxstuffnet/1AUD" id="paypalMethod"><h2>Donate with <img src=\""""+images[1]+"""\" alt="Spriggy"><br><span class="somewhatfine">PayPal Only</span></h2></a>
+    <a href="https://spriggy.me/maxb39" id="spriggyMethod"><h2>Donate with <img src=\""""+images[0]+"""\" alt="Spriggy"><br><span class="somewhatfine">Needs Australian Debit Card</span></h2></a>
+    <a href="https://paypal.me/maxstuffnet/1AUD" id="paypalMethod"><h2>Donate with <img src=\""""+images[1]+"""\" alt="PayPal"><br><span class="somewhatfine">Needs PayPal Account</span></h2></a>
+    <a href="https://paypal.me/maxstuffnet/"><h2>Donate with <img src=\""""+images[1]+"""\" alt="PayPal"> (Any Currency)<br><span class="somewhatfine">Needs PayPal Account</span></h2></a>
     <script>
         function updateMethod () {
             if (amountInputCents.value<0) {
