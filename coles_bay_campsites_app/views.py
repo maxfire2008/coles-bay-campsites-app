@@ -396,10 +396,10 @@ def donate(request):
 <body>
     <h1>Donate money to me</h1>
     <p>Money collected will go towards upgrading my computer to advance my programming skills, etc.</p>
-    <p>$<input type="number" value="1" id="amountInput" min=0>.<input type="number" value="0" min=-1 max=100 id="amountInputCents"></p>
+    <p>$<input type="number" value="1" id="amountInput" min=0>.<input type="number" value="0" min=-1 max=100 id="amountInputCents"> AUD</p>
     <p class="fineprint">Some amounts only available with certain methods. Methods listed in my order of preference.</p>
-    <a href="https://spriggy.me/maxb39"><h2 id="spriggyMethod" style="display:none;">Donate with <img src=\""""+images[0]+"""\" alt="PayPal"><br><span class="somewhatfine">Australian Debit Cards Only</span></h2></a>
-    <a href="https://paypal.me/maxstuffnet"><h2 id="paypalMethod" style="display:none;">Donate with <img src=\""""+images[1]+"""\" alt="Spriggy"><br><span class="somewhatfine">PayPal Only</span></h2></a>
+    <a href="https://spriggy.me/maxb39"><h2 id="spriggyMethod">Donate with <img src=\""""+images[0]+"""\" alt="PayPal"><br><span class="somewhatfine">Australian Debit Cards Only</span></h2></a>
+    <a href="https://paypal.me/maxstuffnet/1AUD"><h2 id="paypalMethod">Donate with <img src=\""""+images[1]+"""\" alt="Spriggy"><br><span class="somewhatfine">PayPal Only</span></h2></a>
     <script>
         function updateMethod () {
             if (amountInputCents.value<0) {
@@ -413,12 +413,18 @@ def donate(request):
                 amountInput.value=Number(amountInput.value)+1;
                 amountInputCents.value=0;
             }
+            total_amount = Number(amountInput.value);
+            total_amount += (Number(amountInputCents.value)/100);
+            amountInputCents.value="0".repeat(2-amountInputCents.value.length)+amountInputCents.value;
             if (amountInput.value>=10 && amountInput.value<=100) {
                 spriggyMethod.style.display = "";
             } else {
                 spriggyMethod.style.display = "none";
             }
+            spriggyMethod.href = "https://spriggy.me/maxb39?amount="+total_amount;
             paypalMethod.style.display = "";
+            paypalMethod.href = "https://paypal.me/maxstuffnet/"+total_amount+"AUD";
+            
         }
         amountInput.onchange = updateMethod;
         amountInput.oninput = updateMethod;
