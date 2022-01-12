@@ -95,7 +95,7 @@ def index(request):
 ##            site_color = getcolor(campsites_wn[campsite_test]["wind"])
             site_color="black"
             campsites+="""<li><a href="/viewcamp?id="""+campsite_test+"""" style="color:"""+site_color+"""">"""+campsite_test+"""</a></li>"""
-    return HttpResponse("""<!DOCTYPE hmtl>
+    return HttpResponse("""<!DOCTYPE html>
 <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-160826511-4"></script>
@@ -197,7 +197,7 @@ def viewcamp(request):
         print(campsites_wn)
         if "note" in campsites_wn[campsite_id]:
             desfield="""<div style="display:inline-block;vertical-align:top;font-size:5vmin;margin-top:5vmin;margin-bottom:5vmin;">"""+campsites_wn[campsite_id]["note"].replace("\n","<br>")+"""</div>"""
-        return HttpResponse("""<!DOCTYPE hmtl>
+        return HttpResponse("""<!DOCTYPE html>
 <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-160826511-4"></script>
@@ -345,7 +345,7 @@ def viewcamp(request):
 
 def donate(request):
     images = open("images.txt","rb").read().decode().split("\n")
-    return HttpResponse("""<!DOCTYPE hmtl>
+    return HttpResponse("""<!DOCTYPE html>
 <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-160826511-4"></script>
@@ -437,7 +437,7 @@ def donate(request):
     </script>
 </body>""")
 def about(request):
-    return HttpResponse("""<!DOCTYPE hmtl>
+    return HttpResponse("""<!DOCTYPE html>
 <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-160826511-4"></script>
