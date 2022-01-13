@@ -332,7 +332,7 @@ def viewcamp(request):
     </span></p>
     <p><a href="https://docs.google.com/forms/d/e/1FAIpQLScok1NIAGXhXBfzmRwv0q_4rlJdkAsSy2IOoeXZspRJ6Q6mMg/viewform?usp=pp_url&entry.1764404320="""+campsite_id+"""">Leave a rating or review</a></p>
     <div class="360container">
-    <iframe width="100%" height="500px" allowfullscreen style="border-style:none;" src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://cdn.statically.io/gh/maxfire2008/coles-bay-campsites@main/images/cb-"""+campsite_id+""".jpeg"></iframe>
+    <iframe width="90%" height="500px" allowfullscreen style="border-style:none;" src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://cdn.statically.io/gh/maxfire2008/coles-bay-campsites@main/images/cb-"""+campsite_id+""".jpeg"></iframe>
     </div>
 """+desfield+"""
 <img alt="Map not currently available." src="https://cdn.statically.io/gh/maxfire2008/coles-bay-campsites@main/maps/"""+str(campsite_id)+""".svg" width=100% height=100%>
