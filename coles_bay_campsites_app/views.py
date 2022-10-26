@@ -372,7 +372,7 @@ def viewcamp(request):
     <a href="https://www.maxstuff.net">My Other Work</a>
 </p>
 <script>
-    review_link_two.href = btoa(\""""+google_form_b64+"""\");
+    review_link_two.href = atob(\""""+google_form_b64+"""\");
     review_link_one.href = review_link_two.href;
 </script>
 </body>""")
