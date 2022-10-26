@@ -1,28 +1,35 @@
 from django.http import HttpResponse
-import requests, json
+import requests
+import json
 
 from io import StringIO
 import csv
 import time
 latest_review_load = -10**50
 
+
 def loadreviews():
     global reviews
     global latest_review_load
-    r=requests.get("https://docs.google.com/spreadsheet/ccc?key=1lAhfx55PorM3F83iJDEnZF_UzsxVsxwSbs1rPsQxk5k&output=csv")
-    f=StringIO(r.content.decode())
+    r = requests.get(
+        "https://docs.google.com/spreadsheet/ccc?key=1lAhfx55PorM3F83iJDEnZF_UzsxVsxwSbs1rPsQxk5k&output=csv")
+    f = StringIO(r.content.decode())
     reader = csv.reader(f, delimiter=',')
     rows = []
     for row in reader:
         rows.append(row)
-    reviews=rows
-    latest_review_load=time.time()
+    reviews = rows
+    latest_review_load = time.time()
+
+
 def getreviews():
     global reviews
     global latest_review_load
-    if (latest_review_load+600)<time.time():
+    if (latest_review_load+600) < time.time():
         loadreviews()
     return reviews
+
+
 def getratings(campsite_number_to_check):
     windratings = []
     locationratings = []
@@ -53,48 +60,55 @@ def getratings(campsite_number_to_check):
         privacyrating = sum(privacyratings)/len(privacyratings)
     except:
         privacyrating = None
-    return windrating,locationrating,privacyrating
+    return windrating, locationrating, privacyrating
+
+
 def getreviewstoshow(campsite_number_to_check):
     reviews_allowed = []
     for review in getreviews()[1:]:
         if review[10] == "TRUE" and review[2] == campsite_number_to_check:
             if review[7]:
-                reviews_allowed.append([review[6],review[7]])
+                reviews_allowed.append([review[6], review[7]])
             else:
-                reviews_allowed.append([review[6],"A colesbay.maxstuff.net user"])
+                reviews_allowed.append(
+                    [review[6], "A colesbay.maxstuff.net user"])
     return reviews_allowed
-##def getcolor(rating):
-##    if rating == 0:
+# def getcolor(rating):
+# if rating == 0:
 ##        wind_color = "black"
-##    elif rating == 1:
+# elif rating == 1:
 ##        wind_color = "darkblue"
-##    elif rating == 2:
+# elif rating == 2:
 ##        wind_color = "green"
-##    elif rating == 3:
+# elif rating == 3:
 ##        wind_color = "orange"
-##    elif rating == 4:
+# elif rating == 4:
 ##        wind_color = "red"
-##    elif rating == 5:
+# elif rating == 5:
 ##        wind_color = "hotpink"
-##    else:
+# else:
 ##        wind_color = "black"
-##    return wind_color
-##def getrating(rating):
+# return wind_color
+# def getrating(rating):
 ##
 
+
 def index(request):
-    campsites_document = requests.get("https://cdn.statically.io/gh/maxfire2008/coles-bay-campsites@main/campsites.csv").content.decode().split("\n")
-    campsites_wn = json.loads(requests.get("https://cdn.statically.io/gh/maxfire2008/coles-bay-campsites@main/sitedata.json").content.decode())
+    campsites_document = requests.get(
+        "https://cdn.statically.io/gh/maxfire2008/coles-bay-campsites@main/campsites.csv").content.decode().split("\n")
+    campsites_wn = json.loads(requests.get(
+        "https://cdn.statically.io/gh/maxfire2008/coles-bay-campsites@main/sitedata.json").content.decode())
     campsites = ""
     for site_number in campsites_document:
         try:
-            campsite_test=str(int(site_number))
+            campsite_test = str(int(site_number))
         except:
-            campsite_test=None
+            campsite_test = None
         if campsite_test:
-##            site_color = getcolor(campsites_wn[campsite_test]["wind"])
-            site_color="black"
-            campsites+="""<li><a href="/viewcamp?id="""+campsite_test+"""" style="color:"""+site_color+"""">"""+campsite_test+"""</a></li>"""
+            ##            site_color = getcolor(campsites_wn[campsite_test]["wind"])
+            site_color = "black"
+            campsites += """<li><a href="/viewcamp?id="""+campsite_test + \
+                """" style="color:"""+site_color+"""">"""+campsite_test+"""</a></li>"""
     return HttpResponse("""<!DOCTYPE html>
 <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -162,41 +176,50 @@ def index(request):
     </p>
 </body>""")
 
+
 def viewcamp(request):
-    campsite_id = request.GET.get("id",None)
-    campsites_wn = json.loads(requests.get("https://cdn.statically.io/gh/maxfire2008/coles-bay-campsites@main/sitedata.json").content.decode())
+    campsite_id = request.GET.get("id", None)
+    campsites_wn = json.loads(requests.get(
+        "https://cdn.statically.io/gh/maxfire2008/coles-bay-campsites@main/sitedata.json").content.decode())
     if campsite_id and campsite_id in campsites_wn:
-##        wind_color = getcolor(campsites_wn[campsite_id]["wind"])
-        wind_color="black"
+        ##        wind_color = getcolor(campsites_wn[campsite_id]["wind"])
+        wind_color = "black"
         desfield = ""
         ratings = getratings(campsite_id)
         ratingstextlist = []
         averagelist = []
         if ratings[0]:
-            ratingstextlist.append("""Wind <span class="Stars" style="--rating: """+str(float(ratings[0]))+""";--star-size: 4vmin;"></span>""")
+            ratingstextlist.append("""Wind <span class="Stars" style="--rating: """+str(
+                float(ratings[0]))+""";--star-size: 4vmin;"></span>""")
             averagelist.append(ratings[0])
         else:
-            ratingstextlist.append("""Wind <span class="Stars" style="--rating: """+str(float(campsites_wn[campsite_id]["wind"]))+""";--star-size: 4vmin;"></span>""")
+            ratingstextlist.append("""Wind <span class="Stars" style="--rating: """+str(
+                float(campsites_wn[campsite_id]["wind"]))+""";--star-size: 4vmin;"></span>""")
             averagelist.append(campsites_wn[campsite_id]["wind"])
         if ratings[1]:
-            ratingstextlist.append("""Utility Distance <span class="Stars" style="--rating: """+str(float(ratings[1]))+""";--star-size: 4vmin;"></span>""")
+            ratingstextlist.append("""Utility Distance <span class="Stars" style="--rating: """+str(
+                float(ratings[1]))+""";--star-size: 4vmin;"></span>""")
             averagelist.append(ratings[1])
         if ratings[2]:
-            ratingstextlist.append("""Privacy <span class="Stars" style="--rating: """+str(float(ratings[2]))+""";--star-size: 4vmin;"></span>""")
+            ratingstextlist.append("""Privacy <span class="Stars" style="--rating: """+str(
+                float(ratings[2]))+""";--star-size: 4vmin;"></span>""")
             averagelist.append(ratings[2])
         print(averagelist)
-        average=sum(averagelist)/len(averagelist)
-        ratingstext="<br>".join(ratingstextlist)
+        average = sum(averagelist)/len(averagelist)
+        ratingstext = "<br>".join(ratingstextlist)
         reviewscollectedandformatted = []
         for review in getreviewstoshow(campsite_id):
-            reviewscollectedandformatted.append(f'<div class="review" style="font-family: sans-serif;margin-bottom: 1vh;width: 90%;margin-left: 5%;margin-right: 5%;text-align: center;">{review[0]}<br><div class="reviewauthor" style="text-align: right;color: darkslategrey;">- {review[1]}</div></div>')
+            reviewscollectedandformatted.append(
+                f'<div class="review" style="font-family: sans-serif;margin-bottom: 1vh;width: 90%;margin-left: 5%;margin-right: 5%;text-align: center;">{review[0]}<br><div class="reviewauthor" style="text-align: right;color: darkslategrey;">- {review[1]}</div></div>')
         if len(reviewscollectedandformatted) > 0:
             reviewsfetched = ''.join(reviewscollectedandformatted)
         else:
             reviewsfetched = """<div class="review" style="font-family: sans-serif;margin-bottom: 1vh;width: 90%;margin-left: 5%;margin-right: 5%;text-align: center;">No reviews yet. Be the first to <a id="review_link_one" href="https://docs.google.com/forms/d/e/1FAIpQLScok1NIAGXhXBfzmRwv0q_4rlJdkAsSy2IOoeXZspRJ6Q6mMg/viewform?usp=pp_url&entry.1764404320="""+campsite_id+"""">leave one</a>!</div>"""
         print(campsites_wn)
         if "note" in campsites_wn[campsite_id]:
-            desfield="""<div style="display:inline-block;vertical-align:top;font-size:5vmin;margin-top:5vmin;margin-bottom:5vmin;">"""+campsites_wn[campsite_id]["note"].replace("\n","<br>")+"""</div>"""
+            desfield = """<div style="display:inline-block;vertical-align:top;font-size:5vmin;margin-top:5vmin;margin-bottom:5vmin;">""" + \
+                campsites_wn[campsite_id]["note"].replace(
+                    "\n", "<br>")+"""</div>"""
         return HttpResponse("""<!DOCTYPE html>
 <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -349,12 +372,14 @@ def viewcamp(request):
 <script>
     review_link_two.href = "https://docs.google.com/forms/d/e/1FAIpQLScok1NIAGXhXBfzmRwv0q_4rlJdkAsSy2IOoeXZspRJ6Q6mMg/viewform?usp=pp_url&entry.1764404320="""+campsite_id+"""\";
     review_link_one.href = review_link_two.href;
+</script>
 </body>""")
-    else:#
+    else:
         return HttpResponse("Campsite Non-existant")
 
+
 def donate(request):
-    images = open("images.txt","rb").read().decode().split("\n")
+    images = open("images.txt", "rb").read().decode().split("\n")
     return HttpResponse("""<!DOCTYPE html>
 <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -446,6 +471,8 @@ def donate(request):
         setTimeout(function() {clearInterval(updateInteval)}, 10000);
     </script>
 </body>""")
+
+
 def about(request):
     return HttpResponse("""<!DOCTYPE html>
 <head>
