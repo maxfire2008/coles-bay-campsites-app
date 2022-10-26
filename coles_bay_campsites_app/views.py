@@ -221,7 +221,7 @@ def viewcamp(request):
             desfield = """<div style="display:inline-block;vertical-align:top;font-size:5vmin;margin-top:5vmin;margin-bottom:5vmin;">""" + \
                 campsites_wn[campsite_id]["note"].replace(
                     "\n", "<br>")+"""</div>"""
-        google_form_b64 = base64.urlsafe_b64encode("https://docs.google.com/forms/d/e/1FAIpQLScok1NIAGXhXBfzmRwv0q_4rlJdkAsSy2IOoeXZspRJ6Q6mMg/viewform?usp=pp_url&entry.1764404320="+campsite_id.encode()).decode()
+        google_form_b64 = base64.urlsafe_b64encode(("https://docs.google.com/forms/d/e/1FAIpQLScok1NIAGXhXBfzmRwv0q_4rlJdkAsSy2IOoeXZspRJ6Q6mMg/viewform?usp=pp_url&entry.1764404320="+campsite_id).encode()).decode()
         return HttpResponse("""<!DOCTYPE html>
 <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
