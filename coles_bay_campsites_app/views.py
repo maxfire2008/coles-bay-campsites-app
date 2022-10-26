@@ -1,3 +1,4 @@
+import base64
 from django.http import HttpResponse
 import requests
 import json
@@ -220,6 +221,7 @@ def viewcamp(request):
             desfield = """<div style="display:inline-block;vertical-align:top;font-size:5vmin;margin-top:5vmin;margin-bottom:5vmin;">""" + \
                 campsites_wn[campsite_id]["note"].replace(
                     "\n", "<br>")+"""</div>"""
+        google_form_b64 = base64.urlsafe_b64encode("https://docs.google.com/forms/d/e/1FAIpQLScok1NIAGXhXBfzmRwv0q_4rlJdkAsSy2IOoeXZspRJ6Q6mMg/viewform?usp=pp_url&entry.1764404320="+campsite_id)
         return HttpResponse("""<!DOCTYPE html>
 <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -370,7 +372,7 @@ def viewcamp(request):
     <a href="https://www.maxstuff.net">My Other Work</a>
 </p>
 <script>
-    review_link_two.href = "https://docs.google.com/forms/d/e/1FAIpQLScok1NIAGXhXBfzmRwv0q_4rlJdkAsSy2IOoeXZspRJ6Q6mMg/viewform?usp=pp_url&entry.1764404320="""+campsite_id+"""\";
+    review_link_two.href = btoa(\""""+google_form_b64+"""\");
     review_link_one.href = review_link_two.href;
 </script>
 </body>""")
