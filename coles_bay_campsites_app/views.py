@@ -80,7 +80,7 @@ def getreviewstoshow(campsite_number_to_check):
 ##        wind_color = "black"
 ##    return wind_color
 ##def getrating(rating):
-##    
+##
 
 def index(request):
     campsites_document = requests.get("https://cdn.statically.io/gh/maxfire2008/coles-bay-campsites@main/campsites.csv").content.decode().split("\n")
@@ -193,7 +193,7 @@ def viewcamp(request):
         if len(reviewscollectedandformatted) > 0:
             reviewsfetched = ''.join(reviewscollectedandformatted)
         else:
-            reviewsfetched = """<div class="review" style="font-family: sans-serif;margin-bottom: 1vh;width: 90%;margin-left: 5%;margin-right: 5%;text-align: center;">No reviews yet. Be the first to <a href="https://docs.google.com/forms/d/e/1FAIpQLScok1NIAGXhXBfzmRwv0q_4rlJdkAsSy2IOoeXZspRJ6Q6mMg/viewform?usp=pp_url&entry.1764404320="""+campsite_id+"""">leave one</a>!</div>"""
+            reviewsfetched = """<div class="review" style="font-family: sans-serif;margin-bottom: 1vh;width: 90%;margin-left: 5%;margin-right: 5%;text-align: center;">No reviews yet. Be the first to <a id="review_link_one" href="https://docs.google.com/forms/d/e/1FAIpQLScok1NIAGXhXBfzmRwv0q_4rlJdkAsSy2IOoeXZspRJ6Q6mMg/viewform?usp=pp_url&entry.1764404320="""+campsite_id+"""">leave one</a>!</div>"""
         print(campsites_wn)
         if "note" in campsites_wn[campsite_id]:
             desfield="""<div style="display:inline-block;vertical-align:top;font-size:5vmin;margin-top:5vmin;margin-bottom:5vmin;">"""+campsites_wn[campsite_id]["note"].replace("\n","<br>")+"""</div>"""
@@ -316,7 +316,7 @@ def viewcamp(request):
                 color: darkslategrey;
             }
             .subrating {
-                
+
                 color:pink;
             }
         }}
@@ -330,7 +330,7 @@ def viewcamp(request):
     <p class="ratingtext">Rating <span class="Stars" style="--rating: """+str(float(average))+""";--star-size: 6vmin;"></span><br>
     <span style="font-size:3.5vmin;">"""+ratingstext+"""</span>
     </span></p>
-    <p><a href="https://docs.google.com/forms/d/e/1FAIpQLScok1NIAGXhXBfzmRwv0q_4rlJdkAsSy2IOoeXZspRJ6Q6mMg/viewform?usp=pp_url&entry.1764404320="""+campsite_id+"""">Leave a rating or review</a></p>
+    <p><a id="review_link_two" href="https://docs.google.com/forms/d/e/1FAIpQLScok1NIAGXhXBfzmRwv0q_4rlJdkAsSy2IOoeXZspRJ6Q6mMg/viewform?usp=pp_url&entry.1764404320="""+campsite_id+"""">Leave a rating or review</a></p>
     <div class="360container">
     <iframe width="90%" height="500px" allowfullscreen style="border-style:none;" src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://cdn.statically.io/gh/maxfire2008/coles-bay-campsites@main/images/cb-"""+campsite_id+""".jpeg"></iframe>
     </div>
@@ -346,6 +346,9 @@ def viewcamp(request):
     <a href="/donate">Donate</a><br>
     <a href="https://www.maxstuff.net">My Other Work</a>
 </p>
+<script>
+    review_link_two.href = "https://docs.google.com/forms/d/e/1FAIpQLScok1NIAGXhXBfzmRwv0q_4rlJdkAsSy2IOoeXZspRJ6Q6mMg/viewform?usp=pp_url&entry.1764404320="""+campsite_id+"""\";
+    review_link_one.href = review_link_two.href;
 </body>""")
     else:#
         return HttpResponse("Campsite Non-existant")
@@ -432,7 +435,7 @@ def donate(request):
             spriggyMethod.href = "https://spriggy.me/maxb39?amount="+total_amount;
             paypalMethod.style.display = "";
             paypalMethod.href = "https://paypal.me/maxstuffnet/"+total_amount+"AUD";
-            
+
         }
         amountInput.onchange = updateMethod;
         amountInput.oninput = updateMethod;
