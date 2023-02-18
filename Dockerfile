@@ -16,8 +16,8 @@ COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 
 # git clone maxfire2008/coles-bay-campsites into /data/coles-bay-campsites
-COPY . /app
-
 RUN git clone https://github.com/maxfire2008/coles-bay-campsites.git /repositories/coles-bay-campsites
+
+COPY . /app
 
 CMD [ "gunicorn", "-b" , "0.0.0.0:4193", "--workers=4", "coles_bay_campsites_app.wsgi", "--log-level", "DEBUG", "--reload"]
