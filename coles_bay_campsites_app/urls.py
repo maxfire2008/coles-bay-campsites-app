@@ -24,4 +24,5 @@ urlpatterns = [
     path('viewcamp/',views.viewcamp),
     path('donate/',views.donate),
     path('about/',views.about),
+    path('update_repositories/', views.update_repositories),
 ]

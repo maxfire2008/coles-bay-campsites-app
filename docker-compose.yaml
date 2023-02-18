@@ -1,0 +1,14 @@
+version: '3.3'
+services:
+    timetable-tools:
+        ports:
+            - 4193:4193
+        restart: always
+        image: ghcr.io/maxfire2008/coles-bay-campsites-app:latest
+        build:
+            context: .
+            dockerfile: Dockerfile
+        # environment from .env file
+        env_file:
+            - .env
+

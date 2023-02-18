@@ -1,5 +1,7 @@
 import base64
+import os
 from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 import requests
 import json
 
@@ -95,10 +97,8 @@ def getreviewstoshow(campsite_number_to_check):
 
 
 def index(request):
-    campsites_document = requests.get(
-        "https://cdn.statically.io/gh/maxfire2008/coles-bay-campsites@main/campsites.csv").content.decode().split("\n")
-    campsites_wn = json.loads(requests.get(
-        "https://cdn.statically.io/gh/maxfire2008/coles-bay-campsites@main/sitedata.json").content.decode())
+    campsites_document = open("/repositories/coles-bay-campsites/campsites.csv", "rb").read().decode().split("\n")
+    campsites_wn = json.loads(open("/repositories/coles-bay-campsites/sitedata.json", "rb").read().decode())
     campsites = ""
     for site_number in campsites_document:
         try:
@@ -180,8 +180,7 @@ def index(request):
 
 def viewcamp(request):
     campsite_id = request.GET.get("id", None)
-    campsites_wn = json.loads(requests.get(
-        "https://cdn.statically.io/gh/maxfire2008/coles-bay-campsites@main/sitedata.json").content.decode())
+    campsites_wn = json.loads(open("/repositories/coles-bay-campsites/sitedata.json", "rb").read().decode())
     if campsite_id and campsite_id in campsites_wn:
         ##        wind_color = getcolor(campsites_wn[campsite_id]["wind"])
         wind_color = "black"
@@ -221,7 +220,8 @@ def viewcamp(request):
             desfield = """<div style="display:inline-block;vertical-align:top;font-size:5vmin;margin-top:5vmin;margin-bottom:5vmin;">""" + \
                 campsites_wn[campsite_id]["note"].replace(
                     "\n", "<br>")+"""</div>"""
-        google_form_b64 = base64.urlsafe_b64encode(("https://docs.google.com/forms/d/e/1FAIpQLScok1NIAGXhXBfzmRwv0q_4rlJdkAsSy2IOoeXZspRJ6Q6mMg/viewform?usp=pp_url&entry.1764404320="+campsite_id).encode()).decode()
+        google_form_b64 = base64.urlsafe_b64encode(
+            ("https://docs.google.com/forms/d/e/1FAIpQLScok1NIAGXhXBfzmRwv0q_4rlJdkAsSy2IOoeXZspRJ6Q6mMg/viewform?usp=pp_url&entry.1764404320="+campsite_id).encode()).decode()
         return HttpResponse("""<!DOCTYPE html>
 <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -507,3 +507,20 @@ def about(request):
 <p>I decided to take 360-degree photos of every campsite and I also made measurements down to the last centimetre. I took a wind-rating. I then put it all on this website where you can see all that info you can even leave reviews and star ratings on each campsite.</p>
 <p>I hope you enjoy this service, and you can always contact me at Email - <span>me<span>(at</span>)maxstuff</span>(<span>dot)net</span> <sup><span style="color:blue" title="This is used to prevent automated bots from getting my email.">[?]</span></sup><br></p>
 </body>""")
+
+# curl -X POST http://localhost:5000/update_repositories --data UPDATE_REPOSITORIES_TOKEN=abc
+
+
+@csrf_exempt
+def update_repositories(request):
+    if request.method == 'POST':
+        if os.environ.get('UPDATE_REPOSITORIES_TOKEN') == request.POST.get('UPDATE_REPOSITORIES_TOKEN'):
+            os.system(
+                "find ../repositories -mindepth 1 -maxdepth 1 -type d " +
+                "-exec git -C {} pull \; 2>&1 > /dev/null"
+            )
+            return HttpResponse("Updated")
+        else:
+            return HttpResponse("Wrong token")
+    else:
+        return HttpResponse("Wrong method")
