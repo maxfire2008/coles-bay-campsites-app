@@ -383,7 +383,7 @@ def viewcamp(request):
     <p><a id="review_link_two" href="https://docs.google.com/forms/d/e/1FAIpQLScok1NIAGXhXBfzmRwv0q_4rlJdkAsSy2IOoeXZspRJ6Q6mMg/viewform?usp=pp_url&entry.1764404320="""+campsite_id+"""">Leave a rating or review</a></p>
     <div class="threesixtycontainer">
     <noscript>
-    <iframe width="100%" height="100%" allowfullscreen style="border-style:none;" src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://camp.maxstuff.net/static/repositories/coles-bay-campsites/images/cb-"""+campsite_id+""".jpeg&amp;autoLoad=true&amp;minHfov=40&amp;maxHfov=150"></iframe>
+    <iframe width="100%" height="100%" allowfullscreen style="border-style:none;" src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://camp.maxstuff.net/static/repositories/coles-bay-campsites/images/cb-"""+campsite_id+""".jpg&amp;autoLoad=true&amp;minHfov=40&amp;maxHfov=150"></iframe>
     </noscript>
     <script>
     let viewer_div = document.createElement('div');
@@ -398,7 +398,7 @@ def viewcamp(request):
     }
     pannellum.viewer('panorama', {
         "type": "equirectangular",
-        "panorama": "/static/repositories/coles-bay-campsites/images/cb-"""+campsite_id+""".jpeg",
+        "panorama": "/static/repositories/coles-bay-campsites/images/cb-"""+campsite_id+""".jpg",
         "autoLoad": true,
         "minHfov": 40,
         "maxHfov": maxhfov,
