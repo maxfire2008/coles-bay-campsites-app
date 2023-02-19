@@ -3,7 +3,7 @@ git checkout main
 git pull
 git add .
 git commit -a
-docker-compose build
+docker-compose build --no-cache
 docker tag ghcr.io/maxfire2008/coles-bay-campsites-app:latest ghcr.io/maxfire2008/coles-bay-campsites-app:$(git describe --tags --always)
 docker tag ghcr.io/maxfire2008/coles-bay-campsites-app:latest ghcr.io/maxfire2008/coles-bay-campsites-app:stable
 docker push ghcr.io/maxfire2008/coles-bay-campsites-app --all-tags
