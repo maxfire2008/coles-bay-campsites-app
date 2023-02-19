@@ -357,10 +357,10 @@ def viewcamp(request):
     </span></p>
     <p><a id="review_link_two" href="https://docs.google.com/forms/d/e/1FAIpQLScok1NIAGXhXBfzmRwv0q_4rlJdkAsSy2IOoeXZspRJ6Q6mMg/viewform?usp=pp_url&entry.1764404320="""+campsite_id+"""">Leave a rating or review</a></p>
     <div class="360container">
-    <iframe width="90%" height="500px" allowfullscreen style="border-style:none;" src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://cdn.statically.io/gh/maxfire2008/coles-bay-campsites@main/images/cb-"""+campsite_id+""".jpeg"></iframe>
+    <iframe width="90%" height="500px" allowfullscreen style="border-style:none;" src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=http://localhost:5000/static/repositories/coles-bay-campsites/images/cb-"""+campsite_id+""".jpeg&amp;autoLoad=true&amp;minHfov=40&amp;maxHfov=170"></iframe>
     </div>
 """+desfield+"""
-<img alt="Map not currently available." src="https://cdn.statically.io/gh/maxfire2008/coles-bay-campsites@main/maps/"""+str(campsite_id)+""".svg" width=100% height=100%>
+<img alt="Map not currently available." src="http://localhost:5000/static/repositories/coles-bay-campsites/maps/"""+str(campsite_id)+""".svg" width=100% height=100%>
 <h2>Reviews</h2>
 <div class="reviewsdiv" style="text-align: center;">
 """+reviewsfetched+"""

@@ -20,4 +20,6 @@ RUN git clone https://github.com/maxfire2008/coles-bay-campsites.git /repositori
 
 COPY . /app
 
+RUN python manage.py collectstatic --noinput
+
 CMD [ "gunicorn", "-b" , "0.0.0.0:80", "--workers=4", "coles_bay_campsites_app.wsgi", "--log-level", "DEBUG", "--reload"]
