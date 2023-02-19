@@ -238,117 +238,142 @@ def viewcamp(request):
     <style>
     * {
     font-family: sans-serif;
-    }
-            @charset "UTF-8";
+}
+
 :root {
-  --star-color: #999;
-  --star-background: #fc0;
+    --star-color: #999;
+    --star-background: #fc0;
 }
 
 .Stars {
-  --percent: calc(var(--rating) / 5 * 100%);
-  display: inline-block;
-  font-size: var(--star-size);
-  font-family: Times;
-  line-height: 1;
+    --percent: calc(var(--rating) / 5 * 100%);
+    display: inline-block;
+    font-size: var(--star-size);
+    font-family: Times;
+    line-height: 1;
 }
-.Stars::before {
-  content: "★★★★★";
-  letter-spacing: 3px;
-  background: linear-gradient(90deg, var(--star-background) var(--percent), var(--star-color) var(--percent));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-         @media screen and (orientation:portrait) {
-            .heading {
-                font-family: sans-serif;
-                font-size: 15vmin;
-                margin-bottom:0;
-                font-weight: bold;
-                /*color: """+wind_color+""";*/
-                margin-top:0;
-            }
-            .ratingtext {
-                font-family: sans-serif; font-size: 5vmin; font-weight:
-                bold; /*color: """+wind_color+""";*/
-            }
-            li {
-                font-family: sans-serif;
-                font-size: 4vmin;
-            }
-            ul {
-                font-family: sans-serif;
-                column-count: 3;
-            }
-            p {
-                font-size: 5vmin;
-            .reviewsdiv {
-                text-align: center;
-            }
-            .review {
-                font-family: sans-serif;
-                margin-bottom: 1vh;
-                width: 90%;
-                margin-left: 5%;
-                margin-right: 5%;
-                text-align: center;
-            }
-            .reviewauthor {
-                width: 100%;
-                font-family: sans-serif;
-                text-align: right;
-                color: darkslategrey;
-            }
-        }}
-        @media screen and (orientation:landscape) {
-            .heading {
-                font-family: sans-serif;
-                font-size: 10vmin;
-                margin-bottom:0;
-                font-weight: bold;
-                margin-top: 0;
-                /*color: """+wind_color+""";*/
-            }
-            .ratingtext {
-                font-family: sans-serif; font-size: 5vmin; font-weight:
-                bold; /*color: """+wind_color+""";*/
-            }
-            li {
-                font-family: sans-serif;
-                font-size: 4vmin;
-            }
-            ul {
-                font-family: sans-serif;
-                column-count: 3;
-            }
-            p {
-                font-size: 5vmin;
-            .reviewsdiv {
-                text-align: center;
-            }
-            .review {
-                font-family: sans-serif;
-                margin-bottom: 1vh;
-                width: 90%;
-                margin-left: 5%;
-                margin-right: 5%;
-                text-align: center;
-            }
-            .reviewauthor {
-                width: 100%;
-                font-family: sans-serif;
-                text-align: right;
-                color: darkslategrey;
-            }
-            .subrating {
 
-                color:pink;
-            }
-        }}
-        .360container {
-            height: 50vh;
-        }
+.Stars::before {
+    content: "★★★★★";
+    letter-spacing: 3px;
+    background: linear-gradient(90deg, var(--star-background) var(--percent), var(--star-color) var(--percent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.threesixtycontainer {
+    height: 80vh;
+    width: 80vw;
+}
+
+.heading {
+    font-family: sans-serif;
+    font-size: 15vw;
+    margin-bottom: 0;
+    font-weight: bold;
+    /*color: """+wind_color+""";*/
+    margin-top: 0;
+}
+
+.ratingtext {
+    font-family: sans-serif;
+    font-size: 5vmin;
+    font-weight:
+        bold;
+    /*color: """+wind_color+""";*/
+}
+
+@media screen and (orientation:portrait) {
+    li {
+        font-family: sans-serif;
+        font-size: 4vmin;
+    }
+
+    ul {
+        font-family: sans-serif;
+        column-count: 3;
+    }
+
+    p {
+        font-size: 5vmin;
+    }
+
+    .reviewsdiv {
+        text-align: center;
+    }
+
+    .review {
+        font-family: sans-serif;
+        margin-bottom: 1vh;
+        width: 90%;
+        margin-left: 5%;
+        margin-right: 5%;
+        text-align: center;
+    }
+
+    .reviewauthor {
+        width: 100%;
+        font-family: sans-serif;
+        text-align: right;
+        color: darkslategrey;
+    }
+
+    .threesixtycontainer {
+        height: 50vh;
+        width: 90vw;
+    }
+}
+
+@media screen and (orientation:landscape) {
+    .heading {
+        font-size: 10vmin;
+    }
+    li {
+        font-family: sans-serif;
+        font-size: 4vmin;
+    }
+
+    ul {
+        font-family: sans-serif;
+        column-count: 3;
+    }
+
+    p {
+        font-size: 5vmin;
+    }
+
+    .reviewsdiv {
+        text-align: center;
+    }
+
+    .review {
+        font-family: sans-serif;
+        margin-bottom: 1vh;
+        width: 90%;
+        margin-left: 5%;
+        margin-right: 5%;
+        text-align: center;
+    }
+
+    .reviewauthor {
+        width: 100%;
+        font-family: sans-serif;
+        text-align: right;
+        color: darkslategrey;
+    }
+
+    .subrating {
+        color: pink;
+    }
+
+    .threesixtycontainer {
+        height: 80vh;
+        width: 80vw;
+    }
+}
     </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
 </head>
 <body>
     <p class="heading">Campsite """+campsite_id+"""</p>
@@ -356,11 +381,33 @@ def viewcamp(request):
     <span style="font-size:3.5vmin;">"""+ratingstext+"""</span>
     </span></p>
     <p><a id="review_link_two" href="https://docs.google.com/forms/d/e/1FAIpQLScok1NIAGXhXBfzmRwv0q_4rlJdkAsSy2IOoeXZspRJ6Q6mMg/viewform?usp=pp_url&entry.1764404320="""+campsite_id+"""">Leave a rating or review</a></p>
-    <div class="360container">
-    <iframe width="90%" height="500px" allowfullscreen style="border-style:none;" src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=http://localhost:5000/static/repositories/coles-bay-campsites/images/cb-"""+campsite_id+""".jpeg&amp;autoLoad=true&amp;minHfov=40&amp;maxHfov=170"></iframe>
+    <div class="threesixtycontainer">
+    <noscript>
+    <iframe width="100%" height="100%" allowfullscreen style="border-style:none;" src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=http://localhost:5000/static/repositories/coles-bay-campsites/images/cb-"""+campsite_id+""".jpeg&amp;autoLoad=true&amp;minHfov=40&amp;maxHfov=150"></iframe>
+    </noscript>
+    <script>
+    let viewer_div = document.createElement('div');
+    viewer_div.id = 'panorama';
+    document.getElementsByClassName('threesixtycontainer')[0].appendChild(viewer_div);
+    // if portrait orientation
+    let maxhfov;
+    if (window.innerHeight > window.innerWidth) {
+        maxhfov = 120;
+    } else {
+        maxhfov = 150;
+    }
+    pannellum.viewer('panorama', {
+        "type": "equirectangular",
+        "panorama": "http://localhost:5000/static/repositories/coles-bay-campsites/images/cb-"""+campsite_id+""".jpeg",
+        "autoLoad": true,
+        "minHfov": 40,
+        "maxHfov": maxhfov,
+        "friction": 0.5,
+    });
+    </script>
     </div>
 """+desfield+"""
-<img alt="Map not currently available." src="http://localhost:5000/static/repositories/coles-bay-campsites/maps/"""+str(campsite_id)+""".svg" width=100% height=100%>
+<img alt="Map not currently available." src="http://localhost:5000/static/repositories/coles-bay-campsites/maps/"""+str(campsite_id)+""".svg" style="max-height: 90vh; max-width: 90vw;">
 <h2>Reviews</h2>
 <div class="reviewsdiv" style="text-align: center;">
 """+reviewsfetched+"""
