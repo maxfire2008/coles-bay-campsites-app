@@ -1,8 +1,6 @@
 version: '3.3'
 services:
-    timetable-tools:
-        ports:
-            - 4193:4193
+    coles-bay-campsites-app:
         restart: always
         image: ghcr.io/maxfire2008/coles-bay-campsites-app:latest
         build:
@@ -11,4 +9,16 @@ services:
         # environment from .env file
         env_file:
             - .env
+        volumes:
+          - staticfiles:/staticfiles
+    nginx:
+        ports:
+            - 4193:80
+        restart: always
+        image: nginx:latest
+        volumes:
+            - staticfiles:/staticfiles
+            - ./nginx.conf:/etc/nginx/nginx.conf
 
+volumes:
+    staticfiles:

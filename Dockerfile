@@ -20,4 +20,4 @@ RUN git clone https://github.com/maxfire2008/coles-bay-campsites.git /repositori
 
 COPY . /app
 
-CMD [ "gunicorn", "-b" , "0.0.0.0:4193", "--workers=4", "coles_bay_campsites_app.wsgi", "--log-level", "DEBUG", "--reload"]
+CMD [ "gunicorn", "-b" , "0.0.0.0:80", "--workers=4", "coles_bay_campsites_app.wsgi", "--log-level", "DEBUG", "--reload"]
